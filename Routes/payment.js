@@ -43,11 +43,16 @@ router.post('/paymentSuccess', async (req, res) => {
 			razorpay_payment_id,
 			razorpay_signature,
 		});
+		let paymentDetails = await razorpay.payments.fetch(
+			razorpay_payment_id,
+		);
+		console.log(paymentDetails);
 		let order = await paymentSuccess.save();
 
 		res.status(201).json({
 			success: true,
 			order,
+			paymentDetails,
 		});
 	} else {
 		res.status(400).json({
